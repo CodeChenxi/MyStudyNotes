@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.mybatis.mapper.CommodityMapper">
+
+    <!-- 查询记录  -->
+    <select id="selectAll" resultType="com.mybatis.bean.Commodity">
+        select * from Commodity where price > 3
+    </select>
+    <!-- 插入记录   -->
+    <insert id="insertCommodity"  parameterType="com.mybatis.bean.Commodity">
+
+        insert into Commodity (id,name,price)value(#{id},#{name},#{price});
+
+    </insert>
+
+    <!--  更新记录  -->
+
+    <update  id = "updateCommodity" parameterType="com.mybatis.bean.Commodity">
+
+        update Commodity set name = #{name}  where id = #{id}
+
+    </update>
+
+    <!--  删除记录   -->
+
+    <delete id="deleteCommodity" parameterType="java.lang.Integer">
+
+        delete from Commodity where id = #{id}
+
+    </delete>
+
+    <select id="selectPrice" resultType="com.mybatis.bean.Commodity">
+        select * from Commodity order by price  desc
+    </select>
+
+    <select id="findByPriceAndStatusIf"   parameterType="Commodity" resultType="Commodity">
+        select * from Commodity
+        <!-- where 标签避免了1=1，并且会去掉实际拼接的最前面一个and-->
+        <where>
+            <!-- 注意：test中的属性不需要使用#{}包含 -->
+            <if test="price != null">
+                and price > #{price}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+
+    </select>
+
+
+    <update id="updateBySet" parameterType="Commodity">
+        update Commodity
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="findByPojoList" parameterType="com.mybatis.pojo.QueryVO"
+            resultType="com.mybatis.bean.User">
+        select Commodity.id,Commodity.  from User  inner join Commodity on id = user.id ;
+        <where>
+            <foreach collection="queryIds" item="uid" open="id in("
+                     separator="," close=")">
+                #{uid}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

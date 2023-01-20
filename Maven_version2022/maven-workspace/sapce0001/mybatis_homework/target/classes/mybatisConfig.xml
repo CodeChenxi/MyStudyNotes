@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--   加载外部文件     -->
+    <properties resource="jdbc.properties"> </properties>
+
+    <typeAliases>
+
+        <typeAlias type="com.mybatis.bean.Commodity" alias="Commodity"></typeAlias>
+
+    </typeAliases>
+    <!--环境配置-->
+    <environments default="mysql">
+
+
+
+        <!--使用MySQL环境-->
+        <environment id="mysql">
+            <!--使用JDBC类型事务管理器-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--使用连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"></property>
+                <property name="url" value="${url}"></property>
+                <property name="username" value="${username}"></property>
+                <property name="password" value="${password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--加载映射配置-->
+    <mappers>
+        <mapper resource="mappers/CommodityMapper.xml"></mapper>
+<!--        <package name="com.mybatis.mapper"/>-->
+<!--        <package name="com.mybatis.mapper"/>-->
+    </mappers>
+
+</configuration>
